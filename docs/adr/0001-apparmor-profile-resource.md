@@ -18,17 +18,10 @@ The client ships a complete set of SELinux resources (`selinux_state`,
 nothing for AppArmor. A search of `lib/` in chef and ohai for `apparmor` returns no
 matches.
 
-AppArmor is the mandatory access control (MAC) system that is on by default on:
-
-- Ubuntu (all supported releases)
-- Debian 10 and later
-- SUSE Linux Enterprise 15 and openSUSE Leap 15.x
-
-Arch Linux supports it as an opt-in. SLES 16 switched to SELinux: its
-documentation describes SELinux as present by default on 16.0 images and in
-enforcing mode by default on 16.1. I have not confirmed whether SLES 16 still
-ships AppArmor as an option, or what openSUSE Tumbleweed defaults to on a new
-install.
+Ubuntu and Debian enable AppArmor by default on standard installations.
+SLES 15 also defaults to AppArmor. SLES 16.1 and openSUSE Leap 16.1
+default to SELinux. Leap supports switching to AppArmor after
+installation. Arch Linux supports AppArmor as an opt-in.
 
 CIS benchmarks for Ubuntu and Debian require every AppArmor profile to be in
 enforce or complain mode. Today a cookbook author has two ways to meet that, and
@@ -44,6 +37,10 @@ file there does not change the running policy, but it fails at the next boot, an
 the service it was meant to confine then runs unconfined.
 
 ### How AppArmor stores and loads policy
+
+The arm64 package checks found AppArmor parser 5.0.2 on Ubuntu 26.04 LTS,
+6.0.0~alpha1 on Ubuntu 26.10, and 4.1.0 on Debian 13. Live kernel checks
+for these releases remain part of the proposed test plan.
 
 I verified these points in an `ubuntu:24.04` container with AppArmor parser
 4.0.1:
@@ -229,12 +226,16 @@ each disable at info level, with the resource name and the profile names.
 
 | Platform | Support |
 |---|---|
-| Ubuntu 20.04 and later | Supported, tested |
-| Debian 11 and later | Supported, tested |
-| SLES 15, openSUSE Leap 15.x | Supported, tested |
-| SLES 16 | Not a target. SELinux is the default. If AppArmor is turned on, the resource should work, but this is not tested. |
-| Arch Linux, other distros with AppArmor turned on | Expected to work, not tested |
-| RHEL family, Fedora, Amazon Linux | Not supported. The preflight check raises. |
+| Ubuntu 26.04 LTS | Primary packaged-client target. Validate the kernel and parser on a runner VM. |
+| Ubuntu 26.10 | Latest stable. Use the distro tools or a source-built client for smoke tests. |
+| Debian 13, with Debian 12 LTS for compatibility | Validate packaged tools in containers and use a Debian guest for native kernel coverage. |
+| SLES 15 SP7 | AppArmor compatibility target. Validate the packaged tools and boot behaviour. |
+| openSUSE Leap 16.1 | Conditional coverage on a guest configured for AppArmor. Stock installations use SELinux. |
+| SLES 16.1, RHEL family, Fedora and Amazon Linux | Outside the initial AppArmor test scope. Use the preflight checks to identify whether AppArmor is active. |
+| Arch Linux and other AppArmor-enabled distributions | Deferred pending platform tests. |
+
+See the [platform baseline](../../README.md#platform-baseline) for test image
+and client availability.
 
 ### Target mode
 
@@ -473,10 +474,10 @@ A unit spec can mock `shell_out`. Only a real kernel can prove that:
 
 | Driver | Feasible? | Notes |
 |---|---|---|
-| Dokken on a local Mac | **No** | I checked: the Docker VM kernel (`7.0.14-linuxkit`) has no `/sys/module/apparmor` and no `/sys/kernel/security/lsm`. Unit specs are the only local option. |
-| Dokken on GitHub `ubuntu-latest` (current `kitchen.dokken.yml`, `privileged: true`) | **Partly** | The container shares the runner's Ubuntu kernel, which has AppArmor turned on. A `pre_converge` step must `mount -t securityfs securityfs /sys/kernel/security`. A privileged container loads profiles into the **host** kernel's policy, because Docker gives a container no AppArmor namespace of its own. That is acceptable on an ephemeral runner, but tests 1 to 3 and 6 run against the host kernel with the container's parser version. Test 4 needs systemd in the container, which the dokken images provide. This is good enough for Debian and SUSE userspace coverage. It is not proof that a real Debian or SUSE kernel behaves the same. Not yet verified on a runner. |
-| `kitchen-exec` on GitHub `ubuntu-24.04` / `ubuntu-24.04-arm` | **Yes, recommended** | Same pattern as the existing `kitchen.exec.macos.yml` and `kitchen.exec.windows.yml`. The client converges the runner VM itself, with its real kernel, real systemd and real `apparmor.service`. All six tests run. The runner is discarded afterwards, so loading policy into it is harmless. |
-| `kitchen-vagrant` with libvirt, on runners that have `/dev/kvm` | Yes, but costly | Real Debian 12 and SLES 15 kernels. Gives full coverage at the cost of VM boot time and box maintenance. Defer unless Dokken coverage turns out to be wrong. |
+| Dokken on a local Mac | **Parser checks** | The checked Docker VM kernel (`7.0.14-linuxkit`) lacked the AppArmor kernel interface. Use it for parser checks and run kernel policy tests in a dedicated guest. |
+| Dokken on GitHub `ubuntu-26.04` with privileged containers | **Partly** | Use a `pre_converge` securityfs mount on an ephemeral runner with AppArmor active. A privileged container can load profiles into the host kernel. This covers the container's userspace parser against the runner kernel. Validate the mount and profile load before enabling the suite. |
+| `kitchen-exec` on GitHub `ubuntu-26.04` / `ubuntu-26.04-arm` | **Yes, recommended** | Use the runner VM's native kernel and systemd. Verify `apparmor.service` and kernel policy access as preconditions before running live checks. |
+| `kitchen-vagrant` with libvirt, on runners that have `/dev/kvm` | Yes, with guest images | Use Debian 13 and SLES 15 SP7 guests for native kernel and boot coverage. Use a Leap 16.1 guest configured for AppArmor for its conditional tests. |
 
 ### Proposed CI layout
 
@@ -484,15 +485,17 @@ The paths below are in the upstream chef repository, which is where the Kitchen
 suites live and where the resource lands when it is contributed. Whether Cinc's
 own pipeline should also run these suites is still open.
 
-1. Add a `kitchen.exec.linux.yml` and an `end-to-end-ubuntu-24.04` matrix entry
-   in `.github/workflows/kitchen.yml`, for amd64 and arm64. This is the release
-   gate for the resource.
+1. Add a `kitchen.exec.linux.yml` and an `end-to-end-ubuntu-26.04` matrix entry
+   in `.github/workflows/kitchen.yml`, for amd64 and arm64. Run the packaged
+   client on these runners as the Ubuntu release gate. Use an Ubuntu 26.10
+   container for parser and utility smoke tests.
 2. Add an `apparmor` recipe to the `end_to_end` test cookbook. It runs every
    usage example above, plus a deliberately broken profile wrapped in
    `ignore_failure true` followed by a `ruby_block` that asserts the restore.
-3. Run the Dokken suites for Debian 12 and openSUSE Leap 15 with the securityfs
-   `pre_converge` mount. Mark them non-blocking until a few runs have shown they
-   are stable.
+3. Run Dokken userspace suites for Debian 13 and SLES 15 SP7. Add Debian 12
+   LTS compatibility and openSUSE Leap 16.1 parser checks when the required
+   packages are available. Use dedicated guests for native policy loading
+   and reboot tests.
 4. Write the verification as InSpec controls that read
    `/sys/kernel/security/apparmor/profiles` and run `aa-exec`. The workflow
    currently has the `kitchen verify` step commented out
@@ -501,7 +504,7 @@ own pipeline should also run these suites is still open.
 5. Make the second converge an idempotence check: `kitchen converge` twice, and
    fail if the second run reports any updated resources.
 
-First task: run a one-off spike on an `ubuntu-latest` runner. It should confirm
+First task: run a one-off spike on an `ubuntu-26.04` runner. It should confirm
 that a privileged Dokken container can mount securityfs and load a profile. That
 result decides whether item 3 is worth building.
 
@@ -609,6 +612,7 @@ beyond the two chosen checks. Rejected.
 - AppArmor core policy reference: <https://gitlab.com/apparmor/apparmor/-/wikis/AppArmor_Core_Policy_Reference>
 - `apparmor_parser(8)`, `apparmor.d(5)`, `aa-exec(1)` man pages
 - SUSE Linux Enterprise Server 16.1 documentation, SELinux: <https://documentation.suse.com/sles/16.1/html/SLES-SELinux/>
+- [openSUSE Leap 16.1 release notes](https://doc.opensuse.org/release-notes/x86_64/openSUSE/Leap/16.1/html/release-notes-leap-161/)
 - Ubuntu Server documentation, AppArmor: <https://documentation.ubuntu.com/server/how-to/security/apparmor/>
 - CIS Ubuntu Linux 24.04 LTS Benchmark, section 1.3 (Mandatory Access Control)
 - Chef introspection helpers: `chef-utils/lib/chef-utils/dsl/introspection.rb`
