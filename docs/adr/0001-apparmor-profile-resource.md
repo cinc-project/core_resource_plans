@@ -299,7 +299,7 @@ action runs.
 **Ship and enforce a profile for your own service.**
 
 ```ruby
-apparmor_profile "myapp" do
+apparmor_profile 'myapp' do
   content <<~PROFILE
     abi <abi/3.0>,
     include <tunables/global>
@@ -318,7 +318,7 @@ apparmor_profile "myapp" do
     }
   PROFILE
   action :create
-  notifies :restart, "service[myapp]"
+  notifies :restart, 'service[myapp]'
 end
 ```
 
@@ -328,10 +328,10 @@ mode, read the denials with `journalctl -k | grep apparmor=`, adjust the
 profile, and then change `mode` to `:enforce`.
 
 ```ruby
-apparmor_profile "myapp" do
-  template "myapp.apparmor.erb"
-  variables data_dir: node["myapp"]["data_dir"]
-  mode node["myapp"]["apparmor_mode"] # "complain" first, "enforce" later
+apparmor_profile 'myapp' do
+  template 'myapp.apparmor.erb'
+  variables data_dir: node['myapp']['data_dir']
+  mode node['myapp']['apparmor_mode'] # "complain" first, "enforce" later
   action :create
 end
 ```
@@ -339,7 +339,7 @@ end
 **Add site rules to a packaged profile without replacing it.**
 
 ```ruby
-apparmor_profile "usr.sbin.nginx" do
+apparmor_profile 'usr.sbin.nginx' do
   local_content <<~RULES
     /srv/www/** r,
     /run/myapp/upstream.sock rw,
@@ -365,7 +365,7 @@ end
 and loads the profile again.
 
 ```ruby
-apparmor_profile "usr.sbin.mysqld" do
+apparmor_profile 'usr.sbin.mysqld' do
   action :create
 end
 ```
@@ -377,7 +377,7 @@ reboot.** The profile file stays in place, so a package upgrade does not bring
 the profile back into force.
 
 ```ruby
-apparmor_profile "usr.sbin.mysqld" do
+apparmor_profile 'usr.sbin.mysqld' do
   action :disable
 end
 ```
@@ -388,7 +388,7 @@ end
 profile and removes the file, its symlinks and its `local/` file.
 
 ```ruby
-apparmor_profile "myapp" do
+apparmor_profile 'myapp' do
   action :delete
 end
 ```
@@ -398,7 +398,7 @@ resource which loaded profiles to unload, because it cannot read the names
 from the file.
 
 ```ruby
-apparmor_profile "legacy-agent" do
+apparmor_profile 'legacy-agent' do
   profile_names %w(legacy-agent legacy-agent//helper)
   action :delete
 end
@@ -411,14 +411,14 @@ not change, so `:create` would converge nothing. `:reload` replaces the
 profile in the kernel so that it picks up the new abstraction.
 
 ```ruby
-apparmor_profile "myapp" do
-  source "myapp.apparmor"
+apparmor_profile 'myapp' do
+  source 'myapp.apparmor'
   action :create
 end
 
-cookbook_file "/etc/apparmor.d/abstractions/myorg-base" do
-  source "myorg-base"
-  notifies :reload, "apparmor_profile[myapp]", :delayed
+cookbook_file '/etc/apparmor.d/abstractions/myorg-base' do
+  source 'myorg-base'
+  notifies :reload, 'apparmor_profile[myapp]', :delayed
 end
 ```
 
@@ -427,8 +427,8 @@ end
 **Skip nodes where AppArmor cannot be used, such as containers and RHEL.**
 
 ```ruby
-apparmor_profile "myapp" do
-  source "myapp.apparmor"
+apparmor_profile 'myapp' do
+  source 'myapp.apparmor'
   only_if { apparmor_enabled? }
 end
 ```
@@ -437,12 +437,12 @@ end
 
 ```ruby
 if apparmor_enabled?
-  apparmor_profile "myapp" do
-    source "myapp.apparmor"
+  apparmor_profile 'myapp' do
+    source 'myapp.apparmor'
   end
 else # RHEL family nodes
-  selinux_module "myapp" do
-    source "myapp.te"
+  selinux_module 'myapp' do
+    source 'myapp.te'
   end
 end
 ```

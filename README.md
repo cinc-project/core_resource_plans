@@ -19,7 +19,8 @@ Each ADR has these sections:
 - Context
 - Decision: actions, properties with accepted values, the steps of each action,
   error handling, platform support, target mode
-- Usage examples: at least one example per action, plus any helpers
+- Usage examples: at least one example per action, plus any helpers. Every
+  Ruby example must pass `cookstyle` with no offenses.
 - End-to-end testing: whether the resource can be tested in CI with Test Kitchen
 - Consequences: Positive, Negative, Follow-up
 - Alternatives considered
