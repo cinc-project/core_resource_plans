@@ -46,3 +46,13 @@ Each ADR has these sections:
 | [ADR-0014](docs/adr/0014-nsswitch-entry-resource.md) | `nsswitch_entry` | Proposed |
 | [ADR-0015](docs/adr/0015-sshd-config-resource.md) | `sshd_config` | Proposed |
 | [ADR-0016](docs/adr/0016-networkmanager-connection-resource.md) | `networkmanager_connection` | Proposed |
+| [ADR-0017](docs/adr/0017-lvm-physical-volume-resource.md) | `lvm_physical_volume` | Proposed |
+| [ADR-0018](docs/adr/0018-lvm-volume-group-resource.md) | `lvm_volume_group` | Proposed |
+| [ADR-0019](docs/adr/0019-lvm-logical-volume-resource.md) | `lvm_logical_volume` | Proposed |
+| [ADR-0020](docs/adr/0020-authorized-key-resource.md) | `authorized_key` | Proposed |
+| [ADR-0021](docs/adr/0021-subordinate-id-resource.md) | `subordinate_id` | Proposed |
+| [ADR-0022](docs/adr/0022-chrony-source-resource.md) | `chrony_source` | Proposed |
+| [ADR-0023](docs/adr/0023-systemd-coredump-resource.md) | `systemd_coredump` | Proposed |
+| [ADR-0024](docs/adr/0024-nftables-table-resource.md) | `nftables_table` | Proposed |
+| [ADR-0025](docs/adr/0025-ca-trust-certificate-resource.md) | `ca_trust_certificate` | Proposed |
+| [ADR-0026](docs/adr/0026-systemd-resolved-resource.md) | `systemd_resolved` | Proposed |

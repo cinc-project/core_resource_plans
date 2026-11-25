@@ -2,7 +2,7 @@
 
 - **Status:** Proposed
 - **Date:** 2026-11-25
-- **Deciders:** @tas50
+- **Deciders:** @damacus
 - **Consulted / Informed:** Cinc maintainers
 
 ## Context
