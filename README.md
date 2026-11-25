@@ -90,3 +90,13 @@ Release and image references
 | [ADR-0024](docs/adr/0024-nftables-table-resource.md) | `nftables_table` | Proposed |
 | [ADR-0025](docs/adr/0025-ca-trust-certificate-resource.md) | `ca_trust_certificate` | Proposed |
 | [ADR-0026](docs/adr/0026-systemd-resolved-resource.md) | `systemd_resolved` | Proposed |
+| [ADR-0027](docs/adr/0027-block-device-partition-resource.md) | `block_device_partition` | Proposed |
+| [ADR-0028](docs/adr/0028-filesystem-format-resource.md) | `filesystem_format` | Proposed |
+| [ADR-0029](docs/adr/0029-xfs-project-quota-resource.md) | `xfs_project_quota` | Proposed |
+| [ADR-0030](docs/adr/0030-nfs-export-resource.md) | `nfs_export` | Proposed |
+| [ADR-0031](docs/adr/0031-autofs-map-resource.md) | `autofs_map` | Proposed |
+| [ADR-0032](docs/adr/0032-systemd-link-resource.md) | `systemd_link` | Proposed |
+| [ADR-0033](docs/adr/0033-ip-rule-resource.md) | `ip_rule` | Proposed |
+| [ADR-0034](docs/adr/0034-pam-access-rule-resource.md) | `pam_access_rule` | Proposed |
+| [ADR-0035](docs/adr/0035-zram-swap-resource.md) | `zram_swap` | Proposed |
+| [ADR-0036](docs/adr/0036-fapolicyd-rule-resource.md) | `fapolicyd_rule` | Proposed |
