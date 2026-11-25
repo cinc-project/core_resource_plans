@@ -23,6 +23,11 @@ changes after adding a fragment. Running `augenrules` produced the merged
 file, and a subsequent `--check` reported no change. This check exercised
 the merge only.
 
+An arm64 container fixture also merged a test rule on Ubuntu 26.04 LTS
+and 26.10 with auditd 4.1.2. AlmaLinux 10 packages `augenrules` with
+audit 4.2.1. The x86-64 guest test must confirm the distro's service
+loads the compiled rules at boot.
+
 ## Decision
 
 Add `auditd_rule` to Cinc Client in the shared Chef codebase. Manage one
@@ -75,8 +80,10 @@ owned by the distribution's audit policy loader.
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and RHEL 9 on x86-64 | Initial targets, subject to tests of packaged rules loaders. |
+| Ubuntu 26.04 LTS and RHEL 10 on x86-64 | Initial targets, subject to tests of packaged rules loaders. |
 | Other kernels and userspaces | Deferred pending checks of the audit ABI and distribution loader. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests.
 
 ### Target mode
 

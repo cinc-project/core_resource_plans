@@ -59,8 +59,11 @@ Add `sshd_config` to Cinc Client in the shared Chef codebase. Own one global Ope
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and Debian 12 | Proposed with tested packaged OpenSSH layout and standard service configuration. |
+| Ubuntu 26.04 LTS and Debian 13 | Proposed conditional on validating the packaged OpenSSH layout and standard service configuration. |
 | RHEL custom policy and arbitrary Include trees | Defer until staging parity is demonstrated. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

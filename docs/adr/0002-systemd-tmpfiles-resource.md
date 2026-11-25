@@ -70,8 +70,11 @@ of eligible contents. The target directory itself remains in place.
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12, RHEL 9 | Initial test targets with the system tmpfiles utility and a compatible boot setup. |
+| Ubuntu 26.04 LTS, Debian 13, RHEL 10 | Initial test targets with the system tmpfiles utility and a compatible boot setup. |
 | Other platforms | Require a separate support decision after fixture and boot tests. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

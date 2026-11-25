@@ -60,8 +60,11 @@ Add `crypttab_entry` to Cinc Client in the shared Chef codebase. Manage one non-
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed for systemd with cryptsetup generator support and a regular local crypttab file. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed for systemd with cryptsetup generator support and a regular local crypttab file. |
 | Initramfs and non-systemd setups | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

@@ -61,8 +61,11 @@ Add `systemd_resolved` to Cinc Client in the shared Chef codebase. Manage one gl
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and Debian 12 | Proposed where systemd-resolved is installed and selected. |
+| Ubuntu 26.04 LTS and Debian 13 | Proposed where systemd-resolved is installed and selected. |
 | Network managers with different resolvers | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

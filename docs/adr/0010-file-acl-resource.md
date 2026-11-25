@@ -62,8 +62,11 @@ Add `file_acl` to Cinc Client in the shared Chef codebase. Manage a single named
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed for local Linux filesystems supporting access ACLs. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed for local Linux filesystems supporting access ACLs. |
 | Network filesystems and default ACLs | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

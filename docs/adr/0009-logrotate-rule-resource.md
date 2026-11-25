@@ -64,8 +64,11 @@ Add `logrotate_rule` to Cinc Client in the shared Chef codebase. Manage a single
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed with packaged logrotate and its standard include path. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed with packaged logrotate and its standard include path. |
 | Applications that require postrotate scripts | Use the existing native configuration mechanism. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

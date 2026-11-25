@@ -14,8 +14,8 @@ loader and take effect when an entry boots. The shared Chef resource
 inventory has no boot-parameter resource. ADR-0001 identifies
 `kernel_args` as the expected owner of kernel command-line edits.
 
-RHEL 9 documents using `grubby` to update the kernel parameters stored in
-GRUB Boot Loader Specification (BLS) entries. `/proc/cmdline` reports the
+RHEL 9 and 10 document using `grubby` to update the kernel parameters stored
+in GRUB Boot Loader Specification (BLS) entries. `/proc/cmdline` reports the
 arguments used for the current boot. A staged change can be correct while
 the running command line still shows the previous value.
 
@@ -23,6 +23,9 @@ In an AlmaLinux 9 arm64 container with grubby 8.40-69.el9, a synthetic BLS
 entry changed from `loglevel=4` to `loglevel=5`. Removing the key left
 its unrelated arguments in place. This exercised file edits without
 booting the entry.
+
+The same set and remove operations passed against a synthetic BLS entry in
+an AlmaLinux 10 arm64 container with grubby 8.40-83.el10.alma.1.
 
 ## Decision
 
@@ -76,8 +79,12 @@ Leave reboot scheduling to recipes.
 
 | Platform | Support |
 |---|---|
-| RHEL 9 and compatible distributions with GRUB BLS on x86-64 | Proposed initial support after fixture and reboot validation. |
-| RHEL 10, Debian, Ubuntu, SUSE, systemd-boot and zipl | Deferred until their boot setup and backend contracts are tested. |
+| RHEL 10 family with GRUB BLS on x86-64 | Primary proposed target. Requires fixture and reboot validation. |
+| RHEL 9 family with GRUB BLS on x86-64 | Compatibility target with the same guest validation requirements. |
+| Debian, Ubuntu, SUSE, systemd-boot and zipl | Deferred until their boot setup and backend contracts are tested. |
+
+See the [platform baseline](../../README.md#platform-baseline) for EL images
+and the native guest requirement.
 
 ### Target mode
 
@@ -117,9 +124,9 @@ repeat. Test whether newly installed kernels inherit the setting.
 | kitchen-exec | Limited. Standard hosted Ubuntu GitHub runners lack the proposed RHEL boot stack. |
 | Vagrant | Required for BIOS and UEFI boot assertions on disposable RHEL-family guests. |
 
-Run BLS fixture checks in a RHEL-family Dokken image. Use rebootable
-guests for the release gate, including one UEFI guest and a second boot
-entry. Record the boot arguments only after each guest restarts.
+Run BLS fixtures on AlmaLinux 10 and 9. Use rebootable x86-64 EL10 and EL9
+guests for native coverage. Include UEFI and a second boot entry in the
+primary release gate. Record the boot arguments after each guest restarts.
 
 ## Consequences
 
@@ -151,6 +158,7 @@ Using `grubby` follows the distro's supported interface.
 ## References
 
 - [ADR-0001](0001-apparmor-profile-resource.md)
+- [RHEL 10 kernel command-line parameters](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/managing_monitoring_and_updating_the_kernel/configuring-kernel-command-line-parameters)
 - [RHEL 9 kernel command-line parameters](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/configuring-kernel-command-line-parameters_managing-monitoring-and-updating-the-kernel)
 - [Boot Loader Specification](https://uapi-group.org/specifications/specs/boot_loader_specification/)
 - [Shared Chef resource inventory](https://github.com/chef/chef/tree/819adc4979af2e92980ae856a48e67c3f380111f/lib/chef/resource)

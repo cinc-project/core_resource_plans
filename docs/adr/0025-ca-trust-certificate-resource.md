@@ -67,9 +67,12 @@ Add `ca_trust_certificate` to Cinc Client in the shared Chef codebase. Manage on
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and Debian 12 | Proposed with ca-certificates and the standard bundle. |
-| RHEL 9 | Proposed with the packaged update-ca-trust adapter. |
+| Ubuntu 26.04 LTS and Debian 13 | Proposed with ca-certificates and the standard bundle. |
+| RHEL 10 | Proposed with the packaged update-ca-trust adapter. |
 | Embedded application stores | Outside this system trust interface. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 
@@ -136,7 +139,7 @@ Writing the system bundle directly would overwrite packaged certificates and be 
 
 ## References
 
-- [Debian update-ca-certificates manual](https://manpages.debian.org/bookworm/ca-certificates/update-ca-certificates.8.en.html)
-- [Red Hat system-wide trust store](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/securing_networks/using-shared-system-certificates_securing-networks)
+- [Debian 13 update-ca-certificates manual](https://manpages.debian.org/trixie/ca-certificates/update-ca-certificates.8.en.html)
+- [RHEL 10 system-wide trust store](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/securing_networks/using-shared-system-certificates_securing-networks)
 - [Chef client-specific trusted certificate resource](https://docs.chef.io/client/19/resources/bundled/chef_client_trusted_certificate/)
 - [Chef Infra Client 19.5.19 resource inventory](https://github.com/chef/chef/tree/v19.5.19/lib/chef/resource)

@@ -60,8 +60,11 @@ Add `nsswitch_entry` to Cinc Client in the shared Chef codebase. Manage the look
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and Debian 12 with glibc | Proposed for regular administrator-owned files. |
+| Ubuntu 26.04 LTS and Debian 13 with glibc | Proposed for regular administrator-owned files. |
 | RHEL authselect-managed systems and musl systems | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

@@ -65,8 +65,10 @@ Add `networkmanager_connection` to Cinc Client in the shared Chef codebase. Mana
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and RHEL 9 with supported nmcli | Proposed after offline feature and manager checks. |
+| Ubuntu 26.04 LTS and RHEL 10 with supported nmcli | Proposed after offline feature and manager checks. |
 | systemd-networkd or other backends | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests.
 
 ### Target mode
 

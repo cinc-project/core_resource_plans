@@ -65,8 +65,11 @@ Add `subordinate_id` to Cinc Client in the shared Chef codebase. Manage one expl
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed with shadow-utils and the local files backend. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed with shadow-utils and the local files backend. |
 | External subid plugins and centrally assigned accounts | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

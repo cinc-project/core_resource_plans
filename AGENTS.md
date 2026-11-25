@@ -20,6 +20,9 @@ build or test.
 - Name it `NNNN-short-title.md`. Number sequentially from `0001`: take the
   highest number in `docs/adr/` plus one. Cite it as `ADR-0001`.
 - Add every new ADR to the index table in `README.md`.
+- Use the [platform baseline](README.md#platform-baseline) for new proposals.
+  Check the availability of the release, client build and test image before
+  naming a target. Keep previously recorded results tied to their actual OS.
 
 ## ADR structure
 

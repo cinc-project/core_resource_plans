@@ -73,9 +73,12 @@ and its same-name primary group.
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and Debian 12 | Initial targets for the system sysusers tool and local account database. |
-| RHEL 9 | Initial target after testing ID ranges and package integration. |
+| Ubuntu 26.04 LTS and Debian 13 | Initial targets for the system sysusers tool and local account database. |
+| RHEL 10 | Initial target after testing ID ranges and package integration. |
 | Other platforms and external identity provisioning | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

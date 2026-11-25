@@ -61,8 +61,11 @@ Add `lvm_logical_volume` to Cinc Client in the shared Chef codebase. Create or g
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed for local LVM2 linear volumes. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed for local LVM2 linear volumes. |
 | Thin, snapshot, RAID and clustered volumes | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

@@ -63,8 +63,11 @@ Add `authorized_key` to Cinc Client in the shared Chef codebase. Manage one Ed25
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed for packaged OpenSSH and local non-root accounts. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed for packaged OpenSSH and local non-root accounts. |
 | External key commands, conflicting Match paths and shared home filesystems | Deferred. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

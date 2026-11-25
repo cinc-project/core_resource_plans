@@ -26,6 +26,40 @@ Each ADR has these sections:
 - Alternatives considered
 - References
 
+## Platform baseline
+
+Use the latest stable release and the current LTS release where the
+distribution publishes both. These are the default test targets as of
+25 November 2026. Each ADR lists the applicable families, prerequisites
+and proposed feature coverage.
+
+| Family | Current targets | Test environment |
+|---|---|---|
+| Ubuntu | 26.10 (latest stable), 26.04 LTS | Use `ubuntu:26.10` for Linux utility and source-built client smoke tests. Use `ubuntu:26.04` or the GitHub-hosted `ubuntu-26.04` and `ubuntu-26.04-arm` runners for packaged-client tests. |
+| Debian | 13 (stable), 12 (LTS) | Use `debian:13` for primary coverage and `debian:12` for compatibility checks where the required feature is available. |
+| Enterprise Linux | RHEL 10 (current major) | Use `almalinux:10` for EL10 userspace fixtures. Use a bootable guest of the relevant distribution when the test depends on its kernel, boot loader or service integration. EL9 remains available for compatibility checks. |
+
+Cinc publishes Ubuntu LTS builds. Omnitruck returns the Ubuntu 26.04 package
+for a 26.10 request, so the interim-release smoke tests use distro tools or a
+client built from the candidate source. Resource tests use the candidate
+client build for the target. Docker images provide userspace coverage. Use
+dedicated guests for kernel, boot and reboot tests. Record historical results
+against the versions actually tested.
+
+SUSE targets are resource-specific. The AppArmor proposal covers SLES 15 SP7
+as a compatibility target. SLES 16.1 and openSUSE Leap 16.1 default to SELinux.
+Leap 16.1 can be tested with AppArmor enabled explicitly. The published
+`registry.suse.com/bci/bci-base:15.7` and `opensuse/leap:16.1` images
+provide userspace fixtures.
+
+Release and image references
+
+- [Ubuntu lifecycle](https://endoflife.date/ubuntu) and [official Ubuntu images](https://hub.docker.com/_/ubuntu)
+- [Debian lifecycle](https://endoflife.date/debian) and [official Debian images](https://hub.docker.com/_/debian)
+- [RHEL lifecycle](https://endoflife.date/rhel) and [official AlmaLinux images](https://hub.docker.com/_/almalinux)
+- [SLES lifecycle](https://endoflife.date/sles) and [openSUSE Leap 16.1 announcement](https://news.opensuse.org/2026/11/03/leap-unites-traditional-and-immutable)
+- [Cinc build and release policy](https://cinc-project.gitlab.io/docs/platforms/) and [GitHub-hosted Ubuntu 26.04 runners](https://github.blog/changelog/2026-09-17-ubuntu-26-generally-available-and-latest-migration/)
+
 ## Index
 
 | ADR | Resource | Status |

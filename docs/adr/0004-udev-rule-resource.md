@@ -19,6 +19,10 @@ udev resource. A cookbook has to arrange validation and reloads itself.
 
 On Ubuntu 24.04 with udev 255.4-1ubuntu8.19, `udevadm verify` accepted a rule
 assigning a serial-device symlink and rejected a rule with an invalid key.
+A test serial-device rule passed on Ubuntu 26.04 LTS with udev 259.9,
+Ubuntu 26.10 with udev 261.3, and Debian 13 with udev 257.13. AlmaLinux
+10's systemd-udev 257 exposes the verifier. These checks used arm64
+containers.
 
 ## Decision
 
@@ -70,8 +74,13 @@ a new event to pick up changes.
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04 and other validated Linux platforms with systemd-udev 254 or later | Candidate support with the required verifier and a daemon for `:reload`. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 family | Proposed with `udevadm verify` from systemd-udev 254 or later and a daemon for `:reload`. |
+| Ubuntu 26.10 | Utility smoke tests with the distro's verifier and a source-built client when needed. |
+| Debian 12 LTS and EL9 | Compatibility fixtures require a build that exposes `udevadm verify`. |
 | Older udev, eudev or daemon-free containers | Older tools require a separate validation strategy. A daemon-free image can stage verified files. |
+
+See the [platform baseline](../../README.md#platform-baseline) for image and
+client availability.
 
 ### Target mode
 
@@ -123,8 +132,9 @@ new rule and that repeated converge sends no reload notification.
 | kitchen-exec | Good for daemon smoke tests with a disposable Ubuntu runner. |
 | Vagrant | Good for reproducible virtual-device events and boot coverage. |
 
-Run syntax and file checks in Ubuntu Dokken. Run daemon and event tests on
-an Ubuntu VM, with Vagrant when virtual device setup is required.
+Run syntax and file checks on Ubuntu, Debian 13 and an EL10 image. Run
+daemon and event tests on Ubuntu 26.04 LTS, with a guest for controlled
+virtual device setup.
 
 ## Consequences
 

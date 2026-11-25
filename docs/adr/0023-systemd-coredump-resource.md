@@ -61,8 +61,11 @@ Add `systemd_coredump` to Cinc Client in the shared Chef codebase. Manage one sy
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed when systemd-coredump is installed and the active handler. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed when systemd-coredump is installed and the active handler. |
 | Apport, ABRT or traditional core-file handlers | Outside the initial scope. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 

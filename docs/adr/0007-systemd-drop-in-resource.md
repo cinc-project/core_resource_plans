@@ -64,8 +64,11 @@ Add `systemd_drop_in` to Cinc Client in the shared Chef codebase. Manage one dro
 
 | Platform | Support |
 |---|---|
-| Ubuntu 24.04, Debian 12 and RHEL 9 | Proposed after overlay parity and manager checks. |
+| Ubuntu 26.04 LTS, Debian 13 and RHEL 10 | Proposed after overlay parity and manager checks. |
 | Containers without systemd PID 1 | File operation candidates where the unit and verifier exist. Reload requires the manager. |
+
+Use the [platform baseline](../../README.md#platform-baseline) for Ubuntu 26.10 smoke tests and
+Debian 12 LTS compatibility checks when the required tools are available.
 
 ### Target mode
 
