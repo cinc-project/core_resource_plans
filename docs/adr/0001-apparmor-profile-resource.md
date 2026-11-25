@@ -1,4 +1,4 @@
-# 202611250052. Built-in `apparmor_profile` resource
+# 0001. Built-in `apparmor_profile` resource
 
 - **Status:** Proposed
 - **Date:** 2026-11-25

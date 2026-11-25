@@ -9,8 +9,9 @@ they can be contributed upstream to Chef Infra Client later.
 
 ## ADR format
 
-Each resource gets one ADR in `docs/adr/`, named `ADR-YYYYMMDDHHMM-short-title.md`.
-Take the timestamp once, when you create the file, with `date -u +%Y%m%d%H%M`.
+Each resource gets one ADR in `docs/adr/`, named `NNNN-short-title.md`. Numbers
+are sequential, starting at `0001`: a new ADR takes the highest number in
+`docs/adr/` plus one. Cite an ADR as `ADR-0001`. The heading is `# 0001. Title`.
 
 Each ADR has these sections:
 
@@ -28,4 +29,4 @@ Each ADR has these sections:
 
 | ADR | Resource | Status |
 |---|---|---|
-| [ADR-202611250052](docs/adr/ADR-202611250052-apparmor-profile-resource.md) | `apparmor_profile` | Proposed |
+| [ADR-0001](docs/adr/0001-apparmor-profile-resource.md) | `apparmor_profile` | Proposed |
