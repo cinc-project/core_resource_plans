@@ -31,3 +31,8 @@ Each ADR has these sections:
 | ADR | Resource | Status |
 |---|---|---|
 | [ADR-0001](docs/adr/0001-apparmor-profile-resource.md) | `apparmor_profile` | Proposed |
+| [ADR-0002](docs/adr/0002-systemd-tmpfiles-resource.md) | `systemd_tmpfiles` | Proposed |
+| [ADR-0003](docs/adr/0003-systemd-sysusers-resource.md) | `systemd_sysusers` | Proposed |
+| [ADR-0004](docs/adr/0004-udev-rule-resource.md) | `udev_rule` | Proposed |
+| [ADR-0005](docs/adr/0005-auditd-rule-resource.md) | `auditd_rule` | Proposed |
+| [ADR-0006](docs/adr/0006-kernel-args-resource.md) | `kernel_args` | Proposed |
